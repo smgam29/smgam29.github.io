@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read"
+    ],
+    "ask": [
+      "Write(tasks.json)",
+      "Edit(tasks.json)",
+      "Bash(git status)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(cp *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)",
+      "Bash(git reset --hard *)",
+      "Write(index.html)",
+      "Edit(index.html)"
+    ]
+  }
+}
