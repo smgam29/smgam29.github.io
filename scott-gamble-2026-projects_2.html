@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scott Gamble · 2026 Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050d1a;--bg2:#091524;--surface:#0d1f35;--surface2:#112540;
+  --border:#1a3050;
+  --amber:#e8a830;--amber-d:rgba(232,168,48,.12);--amber-d2:rgba(232,168,48,.06);
+  --sky:#52b8f5;--sky-d:rgba(82,184,245,.12);
+  --emerald:#30d4a0;--emerald-d:rgba(48,212,160,.12);
+  --violet:#9d78f0;--violet-d:rgba(157,120,240,.12);
+  --text1:#d0e4f8;--text2:#6888a8;--text3:#304860;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;--display:'Space Grotesk',sans-serif;
+  --radius:12px;
+}
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+body{background:var(--bg);color:var(--text1);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+
+/* ── Nav ─────────────────────────────────────────────────────── */
+.nav{position:fixed;right:28px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:14px;align-items:flex-end}
+.nav-dot{display:flex;align-items:center;gap:10px;cursor:pointer;text-decoration:none}
+.nav-dot-label{font-family:var(--display);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);opacity:0;transform:translateX(8px);transition:opacity .2s,transform .2s,color .2s;white-space:nowrap}
+.nav-dot:hover .nav-dot-label,.nav-dot.active .nav-dot-label{opacity:1;transform:translateX(0);color:var(--text2)}
+.nav-dot.active .nav-dot-label{color:var(--amber)}
+.nav-pip{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s,transform .3s;flex-shrink:0}
+.nav-dot.active .nav-pip{background:var(--amber);transform:scale(1.4)}
+.nav-dot:hover .nav-pip{background:var(--text3)}
+
+/* ── Panels ──────────────────────────────────────────────────── */
+.panel{min-height:100vh;scroll-snap-align:start;position:relative;display:flex;align-items:center;padding:80px 60px 80px 80px;max-width:1200px;margin:0 auto}
+.panel-inner{width:100%;max-width:960px}
+.section-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+/* ── Type ────────────────────────────────────────────────────── */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--amber)}
+h2.section-title{font-family:var(--display);font-size:clamp(32px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+.section-desc{font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.section-desc strong{color:var(--text1);font-weight:500}
+
+/* ── Grids ───────────────────────────────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.wide-left{display:grid;grid-template-columns:2fr 3fr;gap:50px;align-items:start}
+.wide-right{display:grid;grid-template-columns:3fr 2fr;gap:50px;align-items:start}
+
+/* ── Chips & tags ────────────────────────────────────────────── */
+.stat-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-family:var(--mono);font-size:13px}
+.stat-val{font-weight:500;color:var(--amber);display:block;font-size:20px;line-height:1.2}
+.stat-label{color:var(--text2);font-size:11px;letter-spacing:.04em}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tag{font-family:var(--mono);font-size:11px;font-weight:500;padding:4px 10px;border-radius:4px;letter-spacing:.04em}
+.tag-amber{background:var(--amber-d);color:var(--amber);border:1px solid rgba(232,168,48,.2)}
+.tag-sky{background:var(--sky-d);color:var(--sky);border:1px solid rgba(82,184,245,.2)}
+.tag-emerald{background:var(--emerald-d);color:var(--emerald);border:1px solid rgba(48,212,160,.2)}
+.tag-violet{background:var(--violet-d);color:var(--violet);border:1px solid rgba(157,120,240,.2)}
+.tag-dim{background:var(--surface);color:var(--text2);border:1px solid var(--border)}
+
+/* ── Bullets ─────────────────────────────────────────────────── */
+.bullets{list-style:none;margin-top:16px}
+.bullets li{font-size:14px;color:var(--text2);padding:7px 0;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid rgba(26,48,80,.6)}
+.bullets li:last-child{border-bottom:none}
+.bullets li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:8px}
+.bullets li strong{color:var(--text1);font-weight:500}
+
+/* ── Reveal animation ────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+.reveal.show{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-14px);transition:opacity .5s,transform .5s}
+.reveal-left.show{opacity:1;transform:translateX(0)}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+#hero{padding:0;max-width:100%;margin:0}
+#hero-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero-content{position:relative;z-index:1;padding:0 80px;max-width:960px;width:100%}
+.hero-title{font-family:var(--display);font-size:clamp(52px,7vw,88px);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin-bottom:24px}
+.hero-title em{font-style:normal;color:var(--amber)}
+.hero-sub{font-size:18px;color:var(--text2);max-width:540px;line-height:1.65;margin-bottom:40px}
+.hero-meta{font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:.08em;margin-bottom:48px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-size:14px;font-weight:500;color:var(--text2);text-decoration:none;border:1px solid var(--border);padding:12px 22px;border-radius:40px;transition:border-color .2s,color .2s}
+.hero-cta:hover{border-color:var(--amber);color:var(--amber)}
+.hero-cta:hover svg{transform:translateY(3px)}
+.hero-cta svg{transition:transform .3s}
+@keyframes fade-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-content>*{animation:fade-up .7s ease both}
+.hero-content .eyebrow{animation-delay:.1s}
+.hero-content .hero-title{animation-delay:.2s}
+.hero-content .hero-sub{animation-delay:.3s}
+.hero-content .hero-meta{animation-delay:.4s}
+.hero-content .hero-cta{animation-delay:.5s}
+
+/* ── KA Transformation ───────────────────────────────────────── */
+.north-star{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:0 var(--radius) var(--radius) 0;padding:20px 24px;margin-bottom:32px}
+.north-star p{font-family:var(--display);font-size:16px;font-weight:500;line-height:1.55;color:var(--text1);font-style:italic}
+.north-star small{display:block;font-family:var(--mono);font-size:11px;color:var(--amber);margin-top:8px;letter-spacing:.06em}
+.wg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.wg-card{background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--border);border-radius:var(--radius);padding:18px;transition:border-top-color .3s,border-color .3s}
+.wg-card:hover{border-top-color:var(--sky);border-color:rgba(82,184,245,.2)}
+.wg-card h4{font-family:var(--display);font-size:13px;font-weight:600;margin-bottom:8px;color:var(--sky)}
+.wg-card ul{list-style:none;font-size:12px;color:var(--text2)}
+.wg-card ul li{padding:3px 0;display:flex;align-items:flex-start;gap:6px}
+.wg-card ul li::before{content:'→';color:var(--text3);flex-shrink:0;font-family:var(--mono);font-size:10px;margin-top:2px}
+.transform-arc{display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:12px;padding:20px;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border)}
+.arc-state{text-align:center}
+.arc-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
+.arc-title{font-family:var(--display);font-size:14px;font-weight:600;color:var(--text1)}
+.arc-sub{font-size:12px;color:var(--text2);margin-top:3px}
+.arc-arrow{color:var(--amber);font-size:22px;text-align:center}
+
+/* ── Framework section ───────────────────────────────────────── */
+.fw-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px}
+.fw-block-title{font-family:var(--display);font-size:13px;font-weight:600;color:var(--text1);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.fw-block-title span{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--amber)}
+
+/* JTBD columns */
+.jtbd-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.jtbd-col{border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.jtbd-col-label{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--text2);margin-bottom:6px}
+.jtbd-col-count{font-family:var(--display);font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+.jtbd-col-prefix{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.jtbd-total{text-align:center;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.06em}
+
+/* GEO tiers */
+.geo-tiers{display:flex;flex-direction:column;gap:6px}
+.geo-tier{border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.geo-tier-label{font-family:var(--display);font-size:13px;font-weight:500}
+.geo-tier-desc{font-size:12px;color:var(--text2)}
+.geo-tier-badge{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px;white-space:nowrap;margin-left:8px}
+
+/* Knowledge types */
+.kt-grid{display:flex;flex-wrap:wrap;gap:6px}
+.kt-chip{font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:6px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);transition:border-color .2s,color .2s;cursor:default}
+.kt-chip:hover{border-color:var(--amber);color:var(--amber)}
+
+/* ── Pipeline (Tech section) ─────────────────────────────────── */
+.flow-track{width:100%;height:2px;background:var(--border);border-radius:1px;margin:16px 0 24px;position:relative;overflow:hidden}
+.flow-track.active::after{content:'';position:absolute;left:-60px;top:0;width:60px;height:100%;background:linear-gradient(90deg,transparent,var(--amber),transparent);animation:flow-p 2.4s ease-in-out infinite}
+@keyframes flow-p{0%{left:-60px}100%{left:calc(100% + 60px)}}
+.pipeline{display:flex;align-items:stretch;gap:0}
+.pipe-stage{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px 16px;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s,border-color .3s}
+.pipe-stage.show{opacity:1;transform:translateY(0)}
+.pipe-stage:hover{border-color:var(--amber)}
+.pipe-num{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.1em;color:var(--amber);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pipe-num::after{content:'';flex:1;height:1px;background:var(--amber-d)}
+.pipe-stage h4{font-family:var(--display);font-size:14px;font-weight:600;margin-bottom:5px}
+.pipe-stage p{font-size:12px;color:var(--text2);line-height:1.5}
+.pipe-stage-badge{display:inline-flex;font-family:var(--mono);font-size:10px;font-weight:500;margin-top:10px;padding:3px 8px;border-radius:4px}
+.b-sky{background:var(--sky-d);color:var(--sky);border:1px solid rgba(82,184,245,.15)}
+.b-amber{background:var(--amber-d);color:var(--amber);border:1px solid rgba(232,168,48,.15)}
+.b-emerald{background:var(--emerald-d);color:var(--emerald);border:1px solid rgba(48,212,160,.15)}
+.pipe-arrow{width:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text3)}
+.pipe-arrow svg{opacity:0;transition:opacity .4s .5s}
+.pipe-arrow.show svg{opacity:1}
+
+/* Graph canvas */
+#graph-canvas{display:block;width:100%;border-radius:var(--radius);background:var(--bg2);border:1px solid var(--border)}
+.graph-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.graph-tooltip{position:absolute;pointer-events:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 13px;font-size:13px;color:var(--text1);z-index:50;opacity:0;transition:opacity .15s}
+.graph-tooltip.show{opacity:1}
+.graph-tooltip small{display:block;font-family:var(--mono);font-size:10px;color:var(--text2);margin-top:2px}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media(max-width:820px){
+  .panel{padding:60px 24px}
+  .two-col,.wide-left,.wide-right{grid-template-columns:1fr;gap:32px}
+  .wg-grid{grid-template-columns:1fr}
+  .pipeline{flex-direction:column}
+  .pipe-arrow{transform:rotate(90deg);height:20px;width:100%}
+  .hero-content{padding:0 24px}
+  .nav{right:14px}
+  .nav-dot-label{display:none}
+  .jtbd-cols{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="sidenav">
+  <a class="nav-dot active" href="#hero"           data-s="hero"><span class="nav-dot-label">Overview</span><span class="nav-pip"></span></a>
+  <a class="nav-dot"        href="#transformation" data-s="transformation"><span class="nav-dot-label">KA Transformation</span><span class="nav-pip"></span></a>
+  <a class="nav-dot"        href="#frameworks"     data-s="frameworks"><span class="nav-dot-label">Architecture & Design</span><span class="nav-pip"></span></a>
+  <a class="nav-dot"        href="#technical"      data-s="technical"><span class="nav-dot-label">Technical Portfolio</span><span class="nav-pip"></span></a>
+</nav>
+
+<canvas id="hero-bg"></canvas>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section class="panel" id="hero" style="min-height:100vh;scroll-snap-align:start;display:flex;align-items:center">
+  <div class="hero-content">
+    <div class="eyebrow">Scott Gamble &nbsp;·&nbsp; 2026</div>
+    <h1 class="hero-title">Knowledge<br><em>Architecture</em><br>at scale</h1>
+    <p class="hero-sub">Three projects spanning programme leadership, framework design, and technical prototyping — building the infrastructure that makes enterprise AI work in practice.</p>
+    <p class="hero-meta">Senior Manager, Knowledge Architecture &nbsp;·&nbsp; ServiceNow</p>
+    <a class="hero-cta" href="#transformation">
+      Start the tour
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── 01 · KA TRANSFORMATION ────────────────────────────────── -->
+<section class="panel" id="transformation" style="scroll-snap-align:start">
+  <div class="panel-inner">
+    <div class="eyebrow">Project 01 &nbsp;·&nbsp; Programme Leadership</div>
+    <div class="wide-left">
+
+      <div>
+        <h2 class="section-title">Knowledge Architecture Transformation</h2>
+        <p class="section-desc">A VP-level programme to fundamentally redesign the Knowledge Architect function — moving from a content production model to an <strong>AI-native knowledge architecture capability</strong>.</p>
+        <p class="section-desc">Three cross-functional working groups operating in parallel, with executive sponsorship, stakeholder alignment across engineering, product, and content teams, and a north star vision that reframes what a knowledge architect does in an AI-first enterprise.</p>
+
+        <ul class="bullets" style="margin-top:24px">
+          <li><strong>VP-level sponsorship</strong> with executive visibility across engineering, product, and content leadership</li>
+          <li><strong>Three cross-functional working groups</strong> — governance, technology architecture, and role design operating in parallel</li>
+          <li>Targeting <strong>15+ roles redesigned</strong> to the AI Knowledge Architect model by end of year</li>
+          <li><strong>SITS UK 2026 keynote</strong> — "Beyond the Pilot: Making Now Assist and AI Agents Actually Work" (ExCeL London)</li>
+          <li>Positions knowledge architecture as <strong>critical infrastructure</strong> for enterprise AI success</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="north-star reveal-left" id="ns">
+          <p>"The Knowledge Architect is the connective tissue between what AI can do and what enterprises need it to know — designing the structures, taxonomies, and retrieval patterns that make AI outputs trustworthy at scale."</p>
+          <small>North Star Statement · KA Transformation, 2026</small>
+        </div>
+
+        <div class="wg-grid">
+          <div class="wg-card reveal" id="wg1" style="transition-delay:.0s">
+            <h4>Governance &amp; Standards</h4>
+            <ul>
+              <li>Knowledge quality standards</li>
+              <li>Cross-team content governance</li>
+              <li>Review and approval workflows</li>
+              <li>Community of practice design</li>
+            </ul>
+          </div>
+          <div class="wg-card reveal" id="wg2" style="transition-delay:.1s">
+            <h4>Technology &amp; Architecture</h4>
+            <ul>
+              <li>Platform knowledge architecture</li>
+              <li>Tooling &amp; automation standards</li>
+              <li>Taxonomy and schema governance</li>
+              <li>RAG infrastructure alignment</li>
+            </ul>
+          </div>
+          <div class="wg-card reveal" id="wg3" style="transition-delay:.2s">
+            <h4>Role Design &amp; Migration</h4>
+            <ul>
+              <li>AI Knowledge Architect JD design</li>
+              <li>Competency framework development</li>
+              <li>Role migration planning</li>
+              <li>Career progression architecture</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="transform-arc reveal" id="arc">
+          <div class="arc-state">
+            <div class="arc-label">Before</div>
+            <div class="arc-title">Content Portfolio Manager</div>
+            <div class="arc-sub">Production-oriented · Output-focused</div>
+          </div>
+          <div class="arc-arrow">→</div>
+          <div class="arc-state">
+            <div class="arc-label">After</div>
+            <div class="arc-title" style="color:var(--amber)">AI Knowledge Architect</div>
+            <div class="arc-sub">Architecture-oriented · Retrieval-focused</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── 02 · KNOWLEDGE ARCHITECTURE FRAMEWORKS ─────────────────── -->
+<section class="panel" id="frameworks" style="scroll-snap-align:start">
+  <div class="panel-inner">
+    <div class="eyebrow">Project 02 &nbsp;·&nbsp; Architecture &amp; Design</div>
+    <div class="two-col">
+
+      <div>
+        <h2 class="section-title">Knowledge Architecture Frameworks</h2>
+        <p class="section-desc">Three interlocking frameworks that form the <strong>intellectual architecture</strong> of enterprise AI content — defining how knowledge is classified, structured, and assessed for AI retrievability.</p>
+        <p class="section-desc">This is the design layer that sits between raw content and AI outputs: the taxonomies, schemas, and evaluation criteria that determine what AI systems know and how reliably they retrieve it.</p>
+
+        <ul class="bullets" style="margin-top:20px">
+          <li><strong>JTBD registry</strong> spans three AI product families — the canonical source of truth for content architecture decisions</li>
+          <li><strong>GEO framework</strong> evaluates content retrievability across external AI engines and internal RAG systems</li>
+          <li><strong>Knowledge taxonomy</strong> classifies content by cognitive function — not just topic — enabling precision retrieval</li>
+          <li>All three frameworks are <strong>actively used</strong> by content and architecture teams across the organisation</li>
+        </ul>
+      </div>
+
+      <div>
+
+        <!-- JTBD Registry -->
+        <div class="fw-block reveal" id="fw1">
+          <div class="fw-block-title">JTBD Unified Registry <span>88 jobs-to-be-done · 3 product families</span></div>
+          <div class="jtbd-cols">
+            <div class="jtbd-col">
+              <div class="jtbd-col-label">Now Assist</div>
+              <div class="jtbd-col-count" style="color:var(--amber)">34</div>
+              <div class="jtbd-col-prefix">NA- prefix</div>
+            </div>
+            <div class="jtbd-col">
+              <div class="jtbd-col-label">Agentic AI</div>
+              <div class="jtbd-col-count" style="color:var(--sky)">28</div>
+              <div class="jtbd-col-prefix">AG- prefix</div>
+            </div>
+            <div class="jtbd-col">
+              <div class="jtbd-col-label">AI Control Tower</div>
+              <div class="jtbd-col-count" style="color:var(--emerald)">26</div>
+              <div class="jtbd-col-prefix">CT- prefix</div>
+            </div>
+          </div>
+          <div class="jtbd-total">88 unified JTBDs · single canonical registry</div>
+        </div>
+
+        <!-- GEO Framework -->
+        <div class="fw-block reveal" id="fw2" style="transition-delay:.1s">
+          <div class="fw-block-title">GEO Content Assessor <span>13-criteria framework</span></div>
+          <div class="geo-tiers">
+            <div class="geo-tier" style="background:var(--amber-d);border:1px solid rgba(232,168,48,.15)">
+              <div>
+                <div class="geo-tier-label" style="color:var(--amber)">Tier 3 — External GEO</div>
+                <div class="geo-tier-desc">Retrievability by public AI engines</div>
+              </div>
+              <span class="geo-tier-badge" style="background:var(--amber-d2);color:var(--amber);border:1px solid rgba(232,168,48,.2)">ChatGPT · Perplexity · Gemini</span>
+            </div>
+            <div class="geo-tier" style="background:var(--sky-d);border:1px solid rgba(82,184,245,.15)">
+              <div>
+                <div class="geo-tier-label" style="color:var(--sky)">Tier 2 — Internal RAG</div>
+                <div class="geo-tier-desc">Enterprise retrieval-augmented generation</div>
+              </div>
+              <span class="geo-tier-badge" style="background:rgba(82,184,245,.08);color:var(--sky);border:1px solid rgba(82,184,245,.2)">AI platform retrieval</span>
+            </div>
+            <div class="geo-tier" style="background:var(--surface);border:1px solid var(--border)">
+              <div>
+                <div class="geo-tier-label" style="color:var(--text1)">Tier 1 — Universal</div>
+                <div class="geo-tier-desc">Baseline quality for all AI systems</div>
+              </div>
+              <span class="geo-tier-badge tag-dim">Foundation criteria</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Knowledge taxonomy -->
+        <div class="fw-block reveal" id="fw3" style="transition-delay:.2s">
+          <div class="fw-block-title">Knowledge Type Taxonomy <span>8 types by cognitive function</span></div>
+          <div class="kt-grid">
+            <span class="kt-chip">Conceptual</span>
+            <span class="kt-chip">Procedural</span>
+            <span class="kt-chip">Contextual</span>
+            <span class="kt-chip">Experiential</span>
+            <span class="kt-chip">Referential</span>
+            <span class="kt-chip">Diagnostic</span>
+            <span class="kt-chip">Comparative</span>
+            <span class="kt-chip">Process</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── 03 · TECHNICAL PORTFOLIO ──────────────────────────────── -->
+<section class="panel" id="technical" style="scroll-snap-align:start">
+  <div class="panel-inner">
+    <div class="eyebrow">Project 03 &nbsp;·&nbsp; Technical Portfolio</div>
+
+    <div class="wide-right">
+      <div>
+        <h2 class="section-title">Technical Portfolio</h2>
+        <p class="section-desc">This section demonstrates <strong>practical technical depth</strong> — not developer work, but the prototyping capability and stack fluency needed to design, specify, and lead technical knowledge architecture initiatives.</p>
+        <p class="section-desc">The ability to build a working knowledge graph or design an AI extraction pipeline is what bridges the gap between knowledge architecture strategy and engineering execution.</p>
+
+        <div style="margin-top:28px">
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Content sources processed</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px" id="chips">
+            <span class="tag tag-dim" style="opacity:0;transition:opacity .4s">Agentic AI playbooks</span>
+            <span class="tag tag-dim" style="opacity:0;transition:opacity .4s .08s">Implementation guides</span>
+            <span class="tag tag-dim" style="opacity:0;transition:opacity .4s .16s">Prompt engineering guides</span>
+            <span class="tag tag-dim" style="opacity:0;transition:opacity .4s .24s">Community articles</span>
+            <span class="tag tag-dim" style="opacity:0;transition:opacity .4s .32s">Platform documentation</span>
+          </div>
+
+          <div class="flow-track" id="ft1"></div>
+          <div class="pipeline" id="pipeline">
+            <div class="pipe-stage" id="ps1">
+              <div class="pipe-num">01</div>
+              <h4>JTBD Matching</h4>
+              <p>Map content against the unified JTBD registry. Assign relevance confidence per job-to-be-done.</p>
+              <span class="pipe-stage-badge b-sky">Semantic match</span>
+            </div>
+            <div class="pipe-arrow" id="pa1">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pipe-stage" id="ps2">
+              <div class="pipe-num">02</div>
+              <h4>Confidence Scoring</h4>
+              <p>Extract candidate knowledge blocks. Score each on accuracy, completeness, and recency.</p>
+              <span class="pipe-stage-badge b-amber">Scored output</span>
+            </div>
+            <div class="pipe-arrow" id="pa2">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="pipe-stage" id="ps3">
+              <div class="pipe-num">03</div>
+              <h4>Review Queue</h4>
+              <p>Route by confidence tier. High-confidence items fast-tracked; low-confidence flagged for review.</p>
+              <span class="pipe-stage-badge b-emerald">Prioritised</span>
+            </div>
+          </div>
+          <div class="flow-track" id="ft2" style="margin-top:16px"></div>
+        </div>
+
+        <div class="stack" style="margin-top:8px">
+          <span class="tag tag-amber">Claude API</span>
+          <span class="tag tag-sky">Python 3.11</span>
+          <span class="tag tag-dim">GitHub</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="margin-bottom:8px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--text3);text-transform:uppercase">KnowHub — knowledge graph · hover to explore</div>
+        <div style="position:relative">
+          <canvas id="graph-canvas" height="380"></canvas>
+          <div class="graph-tooltip" id="graph-tooltip"></div>
+        </div>
+        <div class="graph-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#e8a830"></div>Platform</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#52b8f5"></div>Knowledge</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#30d4a0"></div>Graph layer</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#9d78f0"></div>AI</div>
+        </div>
+        <div class="stack" style="margin-top:14px">
+          <span class="tag tag-emerald">Neo4j AuraDB</span>
+          <span class="tag tag-sky">LangChain</span>
+          <span class="tag tag-amber">Anthropic API</span>
+          <span class="tag tag-dim">Python 3.11</span>
+          <span class="tag tag-dim">Streamlit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ── Particle canvas ──────────────────────────────────────────────────────────
+const bg = document.getElementById('hero-bg');
+const bctx = bg.getContext('2d');
+let W, H, pts;
+const N=65, D=130, COLS=[[232,168,48],[82,184,245]];
+function resize(){W=bg.width=innerWidth;H=bg.height=innerHeight}
+function init(){pts=Array.from({length:N},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.8+.8,c:COLS[Math.random()>.75?0:1]}))}
+function draw(){
+  bctx.clearRect(0,0,W,H);
+  for(let i=0;i<pts.length;i++){
+    const p=pts[i];p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    for(let j=i+1;j<pts.length;j++){
+      const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<D){bctx.strokeStyle=`rgba(${p.c[0]},${p.c[1]},${p.c[2]},${(1-d/D)*.2})`;bctx.lineWidth=.5;bctx.beginPath();bctx.moveTo(p.x,p.y);bctx.lineTo(q.x,q.y);bctx.stroke()}
+    }
+    bctx.fillStyle=`rgba(${p.c[0]},${p.c[1]},${p.c[2]},.5)`;bctx.beginPath();bctx.arc(p.x,p.y,p.r,0,Math.PI*2);bctx.fill();
+  }
+  requestAnimationFrame(draw);
+}
+resize();init();draw();
+window.addEventListener('resize',()=>{resize();init()});
+
+// ── Side nav ─────────────────────────────────────────────────────────────────
+const navDots = document.querySelectorAll('.nav-dot');
+new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&e.intersectionRatio>.4)
+      navDots.forEach(d=>d.classList.toggle('active',d.dataset.s===e.target.id));
+  });
+},{threshold:.4}).observe.bind(new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&e.intersectionRatio>.4)
+      navDots.forEach(d=>d.classList.toggle('active',d.dataset.s===e.target.id));
+  });
+},{threshold:.4}));
+// Simpler:
+const sio=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&e.intersectionRatio>.35)
+      navDots.forEach(d=>d.classList.toggle('active',d.dataset.s===e.target.id));
+  });
+},{threshold:.35});
+['hero','transformation','frameworks','technical'].forEach(id=>{const el=document.getElementById(id);if(el)sio.observe(el)});
+
+// ── Reveal observer ───────────────────────────────────────────────────────────
+const rio=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const id=e.target.id;
+
+    // KA Transformation
+    if(id==='transformation'){
+      setTimeout(()=>document.getElementById('ns')?.classList.add('show'),100);
+      ['wg1','wg2','wg3'].forEach((w,i)=>setTimeout(()=>document.getElementById(w)?.classList.add('show'),300+i*120));
+      setTimeout(()=>document.getElementById('arc')?.classList.add('show'),650);
+    }
+
+    // Frameworks
+    if(id==='frameworks'){
+      ['fw1','fw2','fw3'].forEach((f,i)=>setTimeout(()=>document.getElementById(f)?.classList.add('show'),150+i*130));
+    }
+
+    // Technical
+    if(id==='technical'){
+      document.querySelectorAll('#chips .tag').forEach(el=>el.style.opacity='1');
+      ['ps1','pa1','ps2','pa2','ps3'].forEach((s,i)=>
+        setTimeout(()=>document.getElementById(s)?.classList.add('show'),350+i*160));
+      setTimeout(()=>{
+        document.getElementById('ft1')?.classList.add('active');
+        document.getElementById('ft2')?.classList.add('active');
+      },900);
+      initGraph();
+    }
+  });
+},{threshold:.2});
+['transformation','frameworks','technical'].forEach(id=>{const el=document.getElementById(id);if(el)rio.observe(el)});
+
+// ── Knowledge graph ───────────────────────────────────────────────────────────
+let graphDone=false;
+function initGraph(){
+  if(graphDone)return;graphDone=true;
+  const gc=document.getElementById('graph-canvas');
+  const gx=gc.getContext('2d');
+  const tt=document.getElementById('graph-tooltip');
+  const GW=gc.clientWidth;gc.width=GW;gc.height=380;
+  const GH=380;
+
+  const nodes=[
+    {id:0,l:'ITSM',c:'platform',d:'IT Service Management'},
+    {id:1,l:'Now Assist',c:'platform',d:'Generative AI for ServiceNow'},
+    {id:2,l:'Agentic AI',c:'ai',d:'Autonomous AI agents'},
+    {id:3,l:'AI Control Tower',c:'ai',d:'AI governance & visibility'},
+    {id:4,l:'Incident Mgmt',c:'platform',d:'Incident lifecycle'},
+    {id:5,l:'Problem Mgmt',c:'platform',d:'Root cause analysis'},
+    {id:6,l:'Change Mgmt',c:'platform',d:'Change governance'},
+    {id:7,l:'JTBD',c:'knowledge',d:'Jobs To Be Done framework'},
+    {id:8,l:'Knowledge Block',c:'knowledge',d:'Structured reusable knowledge'},
+    {id:9,l:'Enablement',c:'knowledge',d:'Adoption & success content'},
+    {id:10,l:'Content Arch.',c:'knowledge',d:'Information design layer'},
+    {id:11,l:'GEO Framework',c:'knowledge',d:'Generative Engine Optimisation'},
+    {id:12,l:'RAG Retrieval',c:'knowledge',d:'Retrieval-augmented generation'},
+    {id:13,l:'Neo4j',c:'graph',d:'Graph database'},
+    {id:14,l:'Entity',c:'graph',d:'Named concept node'},
+    {id:15,l:'Relationship',c:'graph',d:'Typed edge between nodes'},
+    {id:16,l:'LangChain',c:'graph',d:'LLM orchestration'},
+    {id:17,l:'Embeddings',c:'ai',d:'Vector representations'},
+  ];
+  const edges=[[0,4],[0,5],[0,6],[0,1],[1,7],[1,8],[1,9],[1,3],[2,3],[2,17],[2,16],[7,8],[7,9],[7,10],[8,12],[8,11],[10,11],[11,12],[12,13],[12,16],[13,14],[13,15],[14,15],[16,17],[17,12]];
+  const cols={platform:'#e8a830',knowledge:'#52b8f5',graph:'#30d4a0',ai:'#9d78f0'};
+  const rs={platform:26,knowledge:22,graph:21,ai:24};
+  const clust={platform:{cx:GW*.28,cy:GH*.38},knowledge:{cx:GW*.55,cy:GH*.28},graph:{cx:GW*.78,cy:GH*.62},ai:{cx:GW*.38,cy:GH*.7}};
+  nodes.forEach(n=>{const c=clust[n.c];n.x=c.cx+(Math.random()-.5)*140;n.y=c.cy+(Math.random()-.5)*100;n.vx=0;n.vy=0;n.r=rs[n.c]});
+  let hov=null,frame=0,settled=false;
+  function tick(){
+    frame++;
+    if(!settled){
+      nodes.forEach(a=>{nodes.forEach(b=>{if(a.id===b.id)return;const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=3000/(d*d);a.vx+=(dx/d)*f;a.vy+=(dy/d)*f})});
+      edges.forEach(([ai,bi])=>{const a=nodes[ai],b=nodes[bi],dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=(d-95)*.016;a.vx+=(dx/d)*f;a.vy+=(dy/d)*f;b.vx-=(dx/d)*f;b.vy-=(dy/d)*f});
+      nodes.forEach(n=>{n.vx+=(GW/2-n.x)*.0012;n.vy+=(GH/2-n.y)*.0012;n.vx*=.82;n.vy*=.82;n.x+=n.vx;n.y+=n.vy;n.x=Math.max(n.r+8,Math.min(GW-n.r-8,n.x));n.y=Math.max(n.r+8,Math.min(GH-n.r-8,n.y))});
+      if(frame>200)settled=true;
+    }
+    gx.clearRect(0,0,GW,GH);
+    edges.forEach(([ai,bi])=>{const a=nodes[ai],b=nodes[bi],on=hov&&(hov.id===ai||hov.id===bi);gx.strokeStyle=on?'rgba(232,168,48,.5)':'rgba(26,48,80,.85)';gx.lineWidth=on?1.4:.7;gx.beginPath();gx.moveTo(a.x,a.y);gx.lineTo(b.x,b.y);gx.stroke()});
+    nodes.forEach(n=>{
+      const col=cols[n.c],h=hov&&hov.id===n.id,conn=hov&&edges.some(([a,b])=>(a===hov.id&&b===n.id)||(b===hov.id&&a===n.id));
+      const al=hov?(h||conn?1:.22):.82,sc=h?1.12:1;
+      gx.save();gx.translate(n.x,n.y);gx.scale(sc,sc);
+      if(h){gx.shadowBlur=16;gx.shadowColor=col}
+      const ha=Math.round(al*255).toString(16).padStart(2,'0');
+      gx.fillStyle=col+ha;gx.strokeStyle=col;gx.lineWidth=h?2:1;
+      gx.beginPath();gx.arc(0,0,n.r,0,Math.PI*2);gx.fill();gx.stroke();
+      gx.shadowBlur=0;
+      gx.fillStyle=`rgba(5,13,26,${al})`;
+      const words=n.l.split(' ');
+      if(words.length>1&&n.l.length>8){gx.font=`500 8.5px 'Inter',sans-serif`;gx.textAlign='center';gx.textBaseline='middle';gx.fillText(words[0],0,-4.5);gx.fillText(words.slice(1).join(' '),0,4.5)}
+      else{gx.font=`500 ${Math.max(8,n.r/2.6)}px 'Inter',sans-serif`;gx.textAlign='center';gx.textBaseline='middle';gx.fillText(n.l,0,0)}
+      gx.restore();
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+  gc.addEventListener('mousemove',e=>{
+    const r=gc.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+    let f=null;nodes.forEach(n=>{const dx=mx-n.x,dy=my-n.y;if(Math.sqrt(dx*dx+dy*dy)<n.r+6)f=n});
+    hov=f;
+    if(f){tt.innerHTML=`<strong>${f.l}</strong><small>${f.d}</small>`;tt.style.left=(e.clientX-r.left+12)+'px';tt.style.top=(e.clientY-r.top-10)+'px';tt.classList.add('show');gc.style.cursor='pointer'}
+    else{tt.classList.remove('show');gc.style.cursor='crosshair'}
+  });
+  gc.addEventListener('mouseleave',()=>{hov=null;tt.classList.remove('show')});
+}
+</script>
+</body>
+</html>
